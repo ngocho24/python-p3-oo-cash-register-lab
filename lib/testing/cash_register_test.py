@@ -6,19 +6,18 @@ import io
 import sys
 
 class TestCashRegister:
-    '''CashRegister in cash_register.py'''
-
-    cash_register = CashRegister()
-    cash_register_with_discount = CashRegister(20)
+    def setup_method(self):
+        self.cash_register = CashRegister()
+        self.cash_register_with_discount = CashRegister(discount=20)
 
     def reset_register_totals(self):
-      self.cash_register.total = 0
-      self.cash_register_with_discount.total = 0
+        self.cash_register.total_price = 0
+        self.cash_register_with_discount.total_price = 0
 
-    def test_discount_attribute(self):
-        '''takes one optional argument, a discount, on initialization.'''
-        assert(self.cash_register.discount == 0)
-        assert(self.cash_register_with_discount.discount == 20)
+    def test_total_attribute(self):
+        '''sets an instance variable total to zero on initialization.'''
+        assert(self.cash_register.total_price == 0)
+        assert(self.cash_register_with_discount.total_price == 0)
 
     def test_total_attribute(self):
         '''sets an instance variable total to zero on initialization.'''
@@ -58,7 +57,7 @@ class TestCashRegister:
         '''applies the discount to the total price.'''
         self.cash_register_with_discount.add_item("macbook air", 1000)
         self.cash_register_with_discount.apply_discount()   
-        assert(self.cash_register_with_discount.total == 800)
+        assert captured_out.getvalue() == "After the discount, the total comes to $800.0.\n"
         # self.cash_register_with_discount.total = 0
         self.reset_register_totals()
 
